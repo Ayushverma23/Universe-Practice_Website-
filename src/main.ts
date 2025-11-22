@@ -7,6 +7,7 @@ import FailuresSection from './components/FailuresSection.ts'
 import FutureSection from './components/FutureSection.ts'
 import Footer from './components/Footer.ts'
 import ThreeScene from './components/ThreeScene.ts'
+import CosmicMap from './components/CosmicMap.ts'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <header id="main-header"></header>
@@ -29,6 +30,7 @@ FailuresSection();
 FutureSection();
 Footer();
 ThreeScene();
+CosmicMap();
 
 // Intersection Observer for fade-in animations
 const observerOptions = {
