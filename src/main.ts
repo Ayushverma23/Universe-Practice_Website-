@@ -6,6 +6,7 @@ import ResearchSection from './components/ResearchSection.ts'
 import FailuresSection from './components/FailuresSection.ts'
 import FutureSection from './components/FutureSection.ts'
 import Footer from './components/Footer.ts'
+import ThreeScene from './components/ThreeScene.ts'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <header id="main-header"></header>
@@ -27,6 +28,7 @@ ResearchSection();
 FailuresSection();
 FutureSection();
 Footer();
+ThreeScene();
 
 // Intersection Observer for fade-in animations
 const observerOptions = {
