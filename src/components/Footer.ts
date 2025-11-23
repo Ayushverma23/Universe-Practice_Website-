@@ -20,6 +20,19 @@ export default function Footer() {
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       margin-top: 4rem;
       color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+    
+    #main-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
+      opacity: 0.5;
     }
 
     #main-footer p {

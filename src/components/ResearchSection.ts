@@ -29,42 +29,95 @@ export default function ResearchSection() {
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
+      gap: 2.5rem;
+      margin-top: 3rem;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
+      border-radius: 12px;
       overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      backdrop-filter: blur(5px);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       border-color: var(--accent-color);
     }
 
+    .card:hover::before {
+      opacity: 1;
+    }
+
     .card-image {
-      height: 200px;
-      background: linear-gradient(135deg, #2c3e50, #4ca1af);
+      height: 220px;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card-image::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(to bottom right, transparent, rgba(255,255,255,0.1), transparent);
+      transform: rotate(45deg);
+      transition: transform 0.6s;
+    }
+    
+    .card:hover .card-image::after {
+      transform: rotate(45deg) translate(50%, 50%);
     }
 
     .card-content {
-      padding: 1.5rem;
+      padding: 2rem;
+    }
+    
+    .card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
     }
 
     .scientist {
       color: var(--accent-color);
       font-style: italic;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .scientist::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent-color);
+      margin-right: 10px;
     }
   `;
   document.head.appendChild(style);
