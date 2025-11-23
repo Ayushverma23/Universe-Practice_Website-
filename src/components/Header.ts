@@ -1,3 +1,5 @@
+import AudioEngine from '../utils/AudioEngine';
+
 export default function Header() {
   const header = document.getElementById('main-header');
   if (!header) return;
@@ -12,8 +14,22 @@ export default function Header() {
         <li><a href="#failures">Failures</a></li>
         <li><a href="#future">Future</a></li>
       </ul>
+      <button id="sound-toggle" class="sound-btn" aria-label="Toggle Sound">
+        <span class="icon">🔇</span>
+      </button>
     </nav>
   `;
+
+  // Initialize Audio Engine (lazy load on interaction)
+  const soundBtn = document.getElementById('sound-toggle');
+  if (soundBtn) {
+    soundBtn.addEventListener('click', () => {
+      const engine = AudioEngine.getInstance();
+      const isPlaying = engine.toggleSound();
+      soundBtn.innerHTML = isPlaying ? '<span class="icon">🔊</span>' : '<span class="icon">🔇</span>';
+      soundBtn.classList.toggle('active', isPlaying);
+    });
+  }
 
   // Add styles for header
   const style = document.createElement('style');
@@ -85,6 +101,33 @@ export default function Header() {
 
     #main-header a:hover::after {
       width: 100%;
+    }
+
+    .sound-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-size: 1.2rem;
+    }
+
+    .sound-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--accent-color);
+      transform: scale(1.1);
+    }
+
+    .sound-btn.active {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 10px var(--accent-color);
+      background: rgba(191, 161, 95, 0.1);
     }
   `;
   document.head.appendChild(style);

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import BlackHole from './BlackHole';
 
 const ThreeScene = () => {
     const scene = new THREE.Scene();
@@ -77,6 +78,10 @@ const ThreeScene = () => {
     scene.add(stars2);
     scene.add(stars3);
 
+    // Add Black Hole
+    const blackHole = new BlackHole();
+    scene.add(blackHole.mesh);
+
     camera.position.z = 5;
 
     // Mouse interaction
@@ -93,13 +98,31 @@ const ThreeScene = () => {
     document.addEventListener('mousemove', onDocumentMouseMove);
 
     // Animation Loop
-    const animate = () => {
+    const animate = (time: number) => {
         requestAnimationFrame(animate);
 
+        // Update Black Hole
+        blackHole.update(time * 0.001);
+
+        // Scroll Parallax (Wormhole Effect)
+        const scrollY = window.scrollY;
+        const maxScroll = document.body.scrollHeight - window.innerHeight;
+        const scrollFraction = Math.max(0, Math.min(1, scrollY / maxScroll));
+
+        // Move camera forward based on scroll
+        // Base position is z=5, we move it deeper into the scene
+        const targetZ = 5 - (scrollFraction * 10);
+        camera.position.z += (targetZ - camera.position.z) * 0.05; // Smooth damping
+
+        // Warp Speed Effect (stretch stars based on scroll speed)
+        // In a real app, we'd calculate delta scroll, but for now we'll just rotate faster
+        const baseSpeed = 0.0002;
+        const warpFactor = 1 + (scrollFraction * 5);
+
         // Rotate star fields at different speeds for depth
-        stars1.rotation.y += 0.0002;
-        stars2.rotation.y += 0.0005;
-        stars3.rotation.y += 0.0008;
+        stars1.rotation.y += baseSpeed * warpFactor;
+        stars2.rotation.y += (baseSpeed * 2.5) * warpFactor;
+        stars3.rotation.y += (baseSpeed * 4) * warpFactor;
 
         // Mouse parallax
         stars1.rotation.x += (mouseY - stars1.rotation.x) * 0.05;
@@ -108,13 +131,16 @@ const ThreeScene = () => {
         renderer.render(scene, camera);
     };
 
-    animate();
+    requestAnimationFrame(animate);
 
     // Handle Resize
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+
+        // Update Black Hole resolution uniform
+        blackHole.material.uniforms.iResolution.value.set(window.innerWidth, window.innerHeight);
     });
 };
 

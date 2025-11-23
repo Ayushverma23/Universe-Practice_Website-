@@ -8,6 +8,7 @@ import FutureSection from './components/FutureSection.ts'
 import Footer from './components/Footer.ts'
 import ThreeScene from './components/ThreeScene.ts'
 import CosmicMap from './components/CosmicMap.ts'
+import QuizSection from './components/QuizSection.ts'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <header id="main-header"></header>
@@ -28,6 +29,7 @@ Timeline();
 ResearchSection();
 FailuresSection();
 FutureSection();
+QuizSection();
 Footer();
 ThreeScene();
 CosmicMap();

@@ -1,4 +1,5 @@
 import { timelineEvents } from '../data';
+import { openModal } from './Modal';
 
 export default function Timeline() {
   const section = document.getElementById('timeline');
@@ -9,7 +10,7 @@ export default function Timeline() {
       <h2>Cosmic Timeline</h2>
       <div class="timeline-container">
         ${timelineEvents.map((event, index) => `
-          <div class="timeline-item ${index % 2 === 0 ? 'left' : 'right'}">
+          <div class="timeline-item ${index % 2 === 0 ? 'left' : 'right'}" data-index="${index}">
             <div class="content">
               <div class="date">${event.year}</div>
               <h3>${event.title}</h3>
@@ -23,6 +24,21 @@ export default function Timeline() {
       </div>
     </div>
   `;
+
+  // Add click listeners
+  const items = section.querySelectorAll('.timeline-item');
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const index = parseInt(item.getAttribute('data-index') || '0');
+      const event = timelineEvents[index];
+      openModal({
+        title: event.title,
+        description: event.description,
+        image: event.image, // In a real app, map this to a URL
+        details: (event as any).details // Cast to any because we just added details
+      });
+    });
+  });
 
   const style = document.createElement('style');
   style.innerHTML = `
@@ -57,6 +73,7 @@ export default function Timeline() {
       background-color: inherit;
       width: 50%;
       box-sizing: border-box;
+      cursor: pointer;
     }
 
     .timeline-item.left {
