@@ -22,6 +22,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section id="research"></section>
     <section id="failures"></section>
     <section id="future"></section>
+    <section id="spectroscopy"></section>
   </main>
   <footer id="main-footer"></footer>
 `

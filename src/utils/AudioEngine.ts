@@ -3,6 +3,8 @@ export default class AudioEngine {
     private context: AudioContext | null = null;
     private masterGain: GainNode | null = null;
     private oscillators: OscillatorNode[] = [];
+    private noiseNode: AudioBufferSourceNode | null = null;
+    private noiseBuffer: AudioBuffer | null = null;
     private isMuted: boolean = true;
 
     private constructor() { }
@@ -69,15 +71,17 @@ export default class AudioEngine {
         });
 
         // Add a noise layer for "space wind"
-        const bufferSize = this.context.sampleRate * 2;
-        const buffer = this.context.createBuffer(1, bufferSize, this.context.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = Math.random() * 2 - 1;
+        if (!this.noiseBuffer) {
+            const bufferSize = this.context.sampleRate * 2;
+            this.noiseBuffer = this.context.createBuffer(1, bufferSize, this.context.sampleRate);
+            const data = this.noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
         }
 
         const noise = this.context.createBufferSource();
-        noise.buffer = buffer;
+        noise.buffer = this.noiseBuffer;
         noise.loop = true;
 
         const noiseFilter = this.context.createBiquadFilter();
@@ -91,8 +95,7 @@ export default class AudioEngine {
         noiseFilter.connect(noiseGain);
         noiseGain.connect(this.masterGain!);
         noise.start();
-        // We don't track noise node for simplicity in this basic engine, 
-        // but in a real app we should to stop it.
+        this.noiseNode = noise;
     }
 
     private stopDrone() {
@@ -103,6 +106,14 @@ export default class AudioEngine {
             } catch (e) { }
         });
         this.oscillators = [];
+
+        if (this.noiseNode) {
+            try {
+                this.noiseNode.stop();
+                this.noiseNode.disconnect();
+            } catch (e) { }
+            this.noiseNode = null;
+        }
     }
 
     private fadeTo(value: number) {
@@ -112,4 +123,7 @@ export default class AudioEngine {
         this.masterGain.gain.cancelScheduledValues(now);
         this.masterGain.gain.linearRampToValueAtTime(value, now + 1);
     }
+
+    // SETI Audio Features
+
 }
