@@ -3,10 +3,10 @@ export default function Spectroscopy() {
     section.id = 'spectroscopy';
     section.className = 'spectroscopy-section';
 
-    // Insert before Gravity Sandbox
-    const sandbox = document.getElementById('gravity-sandbox');
-    if (sandbox && sandbox.parentNode) {
-        sandbox.parentNode.insertBefore(section, sandbox);
+    // Insert after Future Section
+    const future = document.getElementById('future');
+    if (future && future.parentNode) {
+        future.parentNode.insertBefore(section, future.nextSibling);
     }
 
     section.innerHTML = `

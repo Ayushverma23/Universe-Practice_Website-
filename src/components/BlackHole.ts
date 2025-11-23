@@ -46,8 +46,8 @@ void main() {
     float spiral = noise(vec3(uv * 10.0, iTime * 0.5) + vec3(cos(angle * 5.0 + iTime), sin(angle * 5.0 + iTime), 0.0));
     
     // Color
-    vec3 color = vec3(1.0, 0.6, 0.2) * disk * spiral * 2.0; // Gold/Orange
-    color += vec3(0.1, 0.2, 0.5) * smoothstep(0.5, 0.0, dist) * 0.5; // Blue glow
+    vec3 color = vec3(0.5, 0.2, 1.0) * disk * spiral * 2.0; // Deep Cosmic Purple
+    color += vec3(0.1, 0.5, 0.9) * smoothstep(0.5, 0.0, dist) * 0.5; // Blue glow
     
     // Apply Shadow
     color *= shadow;

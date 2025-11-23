@@ -30,6 +30,12 @@ export default function Hero() {
     .hero-content {
       z-index: 2;
       position: relative;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 2rem 3rem;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
     }
 
     #hero h1 {
